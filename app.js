@@ -96,7 +96,27 @@ app.route("/articles/:article")
     }).catch((err)=>{console.log(err)});
 })
 
-.delete();
+.patch((req,res)=>{
+
+    Article.updateOne(
+        {title: req.params.article},
+        {$set: req.body}
+    ).then((foundArticle)=>{
+        console.log("succesfully patched Article");
+        res.send(foundArticle);
+    }).catch((err)=>{console.log(err)});
+    res.redirect("/articles");
+})
+
+.delete((req,res)=>{
+    Article.findOneAndDelete(
+        {title: req.params.article}
+        ).then((delArticle)=>{
+            console.log(delArticle);
+            
+        }).catch((err)=>{console.log(err)});
+        res.redirect("/articles");
+});
 
 
 
